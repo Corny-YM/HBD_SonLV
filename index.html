@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HAPPY BIRTHDAY!!!</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Fredoka+One&display=swap");
+
+      :root {
+        --chaos: 0; /* 0 = calm, 1 = chaos */
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* ===== BODY ===== */
+      body {
+        font-family: "Fredoka One", "Comic Sans MS", cursive;
+        overflow: hidden;
+        height: 100vh;
+        width: 100vw;
+        background: #0d0d2b;
+        transition: background 0.5s;
+      }
+
+      /* ===== CHAOS MODE (birthday day) ===== */
+      body.is-birthday {
+        cursor: crosshair;
+      }
+
+      /* Background image — always present, only visible in chaos */
+      #chaos-bg {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: url("./Image.jpg") center center / cover no-repeat;
+      }
+
+      /* Color flash overlay on top of image */
+      #chaos-bg::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        animation: epilepsyWarning 0.15s infinite;
+        mix-blend-mode: multiply;
+      }
+
+      body.is-birthday #chaos-bg {
+        display: block;
+      }
+
+      @keyframes epilepsyWarning {
+        0% {
+          background-color: rgba(255, 0, 0, 0.55);
+        }
+        14% {
+          background-color: rgba(255, 165, 0, 0.55);
+        }
+        28% {
+          background-color: rgba(255, 255, 0, 0.55);
+        }
+        42% {
+          background-color: rgba(0, 255, 0, 0.55);
+        }
+        57% {
+          background-color: rgba(0, 0, 255, 0.55);
+        }
+        71% {
+          background-color: rgba(255, 0, 255, 0.55);
+        }
+        85% {
+          background-color: rgba(0, 255, 255, 0.55);
+        }
+        100% {
+          background-color: rgba(255, 0, 0, 0.55);
+        }
+      }
+
+      @keyframes epilepsyWarning {
+        0% {
+          background-color: red;
+        }
+        14% {
+          background-color: orange;
+        }
+        28% {
+          background-color: yellow;
+        }
+        42% {
+          background-color: lime;
+        }
+        57% {
+          background-color: blue;
+        }
+        71% {
+          background-color: magenta;
+        }
+        85% {
+          background-color: cyan;
+        }
+        100% {
+          background-color: red;
+        }
+      }
+
+      /* ===== STARS (calm mode) ===== */
+      #stars {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        transition: opacity 0.5s;
+      }
+      body.is-birthday #stars {
+        opacity: 0;
+      }
+
+      /* ===== CALM H1 ===== */
+      h1.calm-title {
+        position: absolute;
+        top: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: "Pacifico", cursive;
+        font-size: clamp(1.8rem, 5vw, 3.5rem);
+        color: #fff;
+        text-align: center;
+        text-shadow:
+          0 0 30px #a78bfa,
+          0 0 60px #7c3aed;
+        white-space: nowrap;
+        z-index: 10;
+        animation: gentleFloat 3s ease-in-out infinite;
+        pointer-events: none;
+      }
+
+      @keyframes gentleFloat {
+        0%,
+        100% {
+          transform: translateX(-50%) translateY(0px);
+        }
+        50% {
+          transform: translateX(-50%) translateY(-12px);
+        }
+      }
+
+      /* ===== CHAOS H1 ===== */
+      h1.chaos-title {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        font-size: 6rem;
+        color: yellow;
+        text-align: center;
+        text-transform: uppercase;
+        text-shadow:
+          10px 10px 0px blue,
+          -10px -10px 0px red;
+        white-space: nowrap;
+        pointer-events: none;
+        mix-blend-mode: difference;
+        animation: violentJitter 0.05s infinite alternate;
+        z-index: 100;
+      }
+
+      body.is-birthday h1.calm-title {
+        display: none;
+      }
+      body.is-birthday h1.chaos-title {
+        display: block;
+      }
+
+      @keyframes violentJitter {
+        0% {
+          transform: translate(-50%, -50%) skew(0deg) scale(1);
+        }
+        100% {
+          transform: translate(-55%, -45%) skew(25deg) scale(1.3);
+        }
+      }
+
+      /* ===== COUNTDOWN CARD (calm mode) ===== */
+      #countdown-wrap {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 20;
+        animation: gentleFloat 4s ease-in-out infinite;
+      }
+
+      body.is-birthday #countdown-wrap {
+        display: none;
+      }
+
+      .cd-label {
+        font-family: "Pacifico", cursive;
+        font-size: clamp(1rem, 3vw, 1.6rem);
+        color: #c4b5fd;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+
+      .cd-boxes {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .cd-box {
+        background: rgba(255, 255, 255, 0.07);
+        border: 2px solid rgba(167, 139, 250, 0.4);
+        border-radius: 20px;
+        padding: 18px 24px;
+        min-width: 90px;
+        backdrop-filter: blur(12px);
+        box-shadow:
+          0 0 30px rgba(124, 58, 237, 0.3),
+          inset 0 0 20px rgba(255, 255, 255, 0.03);
+        transition: transform 0.2s;
+      }
+
+      .cd-box:hover {
+        transform: scale(1.05);
+      }
+
+      .cd-num {
+        font-size: clamp(2.5rem, 8vw, 4.5rem);
+        color: #fff;
+        line-height: 1;
+        text-shadow: 0 0 20px #a78bfa;
+      }
+
+      .cd-unit {
+        font-size: 0.8rem;
+        color: #a78bfa;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-top: 6px;
+      }
+
+      .cd-msg {
+        margin-top: 30px;
+        font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+        color: rgba(196, 181, 253, 0.7);
+      }
+
+      /* ===== FLOATING CAKE (calm mode) ===== */
+      .float-emoji {
+        position: fixed;
+        font-size: 2rem;
+        animation: floatUp linear infinite;
+        opacity: 0.7;
+        pointer-events: none;
+        z-index: 5;
+      }
+
+      body.is-birthday .float-emoji {
+        display: none;
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(110vh) rotate(0deg);
+          opacity: 0.7;
+        }
+        100% {
+          transform: translateY(-20vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* ===== CHAOS BACKGROUND IMAGE (fixed, still) ===== */
+      .chaos-bg-img {
+        display: none;
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+        opacity: 0.45;
+        pointer-events: none;
+        animation: none !important;
+        transform: none !important;
+        filter: none !important;
+      }
+      body.is-birthday .chaos-bg-img {
+        display: block;
+      }
+
+      /* ===== CHAOS IMAGE ===== */
+      .spin-img {
+        display: none;
+        position: absolute;
+        width: 350px;
+        height: 350px;
+        border-radius: 20%;
+        border: 15px dashed fuchsia;
+        box-shadow: 0 0 50px white;
+        animation:
+          spin360 0.2s linear infinite,
+          bounceAround 3s infinite alternate ease-in-out;
+        z-index: 50;
+      }
+
+      body.is-birthday .spin-img {
+        display: block;
+      }
+
+      @keyframes spin360 {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes bounceAround {
+        0% {
+          top: -10%;
+          left: -10%;
+        }
+        25% {
+          top: 80%;
+          left: 20%;
+        }
+        50% {
+          top: 10%;
+          left: 80%;
+        }
+        75% {
+          top: 60%;
+          left: 60%;
+        }
+        100% {
+          top: 40%;
+          left: -20%;
+        }
+      }
+
+      /* ===== CONFETTI CANVAS ===== */
+      #confetti {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 200;
+        display: none;
+      }
+      body.is-birthday #confetti {
+        display: block;
+      }
+
+      /* ===== CALM IMAGE (floating gently) ===== */
+      .calm-img {
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        border: 4px solid rgba(167, 139, 250, 0.6);
+        box-shadow: 0 0 40px rgba(124, 58, 237, 0.5);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 80px);
+        animation: gentleFloat 5s ease-in-out infinite;
+        object-fit: cover;
+        z-index: 15;
+      }
+      body.is-birthday .calm-img {
+        display: none;
+      }
+
+      /* ===== MOBILE RESPONSIVE ===== */
+      @media (max-width: 480px) {
+        h1.calm-title {
+          font-size: clamp(1rem, 5vw, 1.5rem);
+          top: 4%;
+          white-space: normal;
+          width: 90%;
+          text-align: center;
+        }
+
+        h1.chaos-title {
+          font-size: clamp(2rem, 9vw, 3rem);
+          text-shadow:
+            4px 4px 0px blue,
+            -4px -4px 0px red;
+          width: 90vw;
+          text-align: center;
+        }
+
+        #countdown-wrap {
+          width: 96vw;
+          padding: 0 6px;
+        }
+
+        .cd-label {
+          font-size: clamp(0.7rem, 3.5vw, 1rem);
+          letter-spacing: 1px;
+          margin-bottom: 12px;
+        }
+
+        .cd-boxes {
+          gap: 7px;
+        }
+
+        .cd-box {
+          padding: 10px 8px;
+          min-width: 64px;
+          border-radius: 14px;
+        }
+
+        .cd-num {
+          font-size: clamp(1.8rem, 8vw, 2.8rem);
+        }
+
+        .cd-unit {
+          font-size: 0.6rem;
+          letter-spacing: 1px;
+        }
+
+        .cd-msg {
+          margin-top: 16px;
+          font-size: clamp(0.75rem, 3.2vw, 0.95rem);
+          padding: 0 6px;
+        }
+
+        .calm-img {
+          width: 100px;
+          height: 100px;
+          transform: translate(-50%, 55px);
+        }
+
+        .spin-img {
+          width: 160px;
+          height: 160px;
+          border-width: 7px;
+        }
+      }
+
+      /* ===== TABLET RESPONSIVE ===== */
+      @media (min-width: 481px) and (max-width: 768px) {
+        h1.chaos-title {
+          font-size: clamp(3rem, 7vw, 4rem);
+        }
+
+        .cd-box {
+          padding: 14px 16px;
+          min-width: 74px;
+        }
+
+        .cd-num {
+          font-size: clamp(2rem, 6vw, 3.2rem);
+        }
+
+        .spin-img {
+          width: 220px;
+          height: 220px;
+        }
+
+        .calm-img {
+          width: 140px;
+          height: 140px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Stars canvas (calm mode) -->
+    <canvas id="stars"></canvas>
+
+    <!-- Chaos background image + color flash overlay -->
+    <div id="chaos-bg"></div>
+
+    <!-- Calm title -->
+    <h1 class="calm-title">🎂 Sắp tới sinh nhật rồi... 🎂</h1>
+
+    <!-- Chaos title -->
+    <h1 class="chaos-title">Happy Birthday<br />To You!!!</h1>
+
+    <!-- Calm: portrait photo -->
+    <img src="./Image.jpg" alt="helloSon" class="calm-img" />
+
+    <!-- Chaos background image (fixed, mờ) -->
+    <img src="./Image.jpg" alt="" class="chaos-bg-img" />
+
+    <!-- Chaos: spinning photo -->
+    <img src="./Image.jpg" alt="helloSon" class="spin-img" />
+
+    <!-- Confetti canvas -->
+    <canvas id="confetti"></canvas>
+
+    <!-- Countdown block -->
+    <div id="countdown-wrap">
+      <div class="cd-label">⏳ Đếm ngược đến sinh nhật</div>
+      <div class="cd-boxes">
+        <div class="cd-box">
+          <div class="cd-num" id="cd-days">00</div>
+          <div class="cd-unit">Ngày</div>
+        </div>
+        <div class="cd-box">
+          <div class="cd-num" id="cd-hours">00</div>
+          <div class="cd-unit">Giờ</div>
+        </div>
+        <div class="cd-box">
+          <div class="cd-num" id="cd-mins">00</div>
+          <div class="cd-unit">Phút</div>
+        </div>
+        <div class="cd-box">
+          <div class="cd-num" id="cd-secs">00</div>
+          <div class="cd-unit">Giây</div>
+        </div>
+      </div>
+      <div class="cd-msg" id="cd-msg">
+        🎁 Một ngày đặc biệt đang chờ đón bạn!
+      </div>
+    </div>
+
+    <script>
+      /* ========== CONFIG ========== */
+      const BD_MONTH = 5; // tháng (1-12)
+      const BD_DAY = 19; // ngày
+
+      /* ========== STARS ========== */
+      (function () {
+        const canvas = document.getElementById("stars");
+        const ctx = canvas.getContext("2d");
+        let stars = [];
+
+        function resize() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+          stars = Array.from({ length: 160 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 1.8 + 0.3,
+            speed: Math.random() * 0.3 + 0.1,
+            alpha: Math.random(),
+          }));
+        }
+
+        function draw() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          stars.forEach((s) => {
+            s.alpha += s.speed * 0.02;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255,255,255,${0.3 + 0.7 * Math.abs(Math.sin(s.alpha))})`;
+            ctx.fill();
+          });
+          requestAnimationFrame(draw);
+        }
+
+        window.addEventListener("resize", resize);
+        resize();
+        draw();
+      })();
+
+      /* ========== FLOATING EMOJIS (calm) ========== */
+      (function () {
+        const emojis = [
+          "🎂",
+          "🎁",
+          "🎈",
+          "🎉",
+          "🥳",
+          "✨",
+          "🌟",
+          "🍰",
+          "💜",
+          "🎊",
+        ];
+        function spawnEmoji() {
+          const el = document.createElement("span");
+          el.className = "float-emoji";
+          el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          el.style.left = Math.random() * 100 + "vw";
+          const dur = 6 + Math.random() * 8;
+          el.style.animationDuration = dur + "s";
+          el.style.fontSize = 1.2 + Math.random() * 2 + "rem";
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), dur * 1000);
+        }
+        setInterval(spawnEmoji, 700);
+      })();
+
+      /* ========== CONFETTI (chaos mode) ========== */
+      (function () {
+        const canvas = document.getElementById("confetti");
+        const ctx = canvas.getContext("2d");
+        let pieces = [];
+
+        function resize() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resize);
+        resize();
+
+        function spawn() {
+          for (let i = 0; i < 6; i++) {
+            pieces.push({
+              x: Math.random() * canvas.width,
+              y: -10,
+              w: 8 + Math.random() * 12,
+              h: 6 + Math.random() * 8,
+              color: `hsl(${Math.random() * 360},90%,60%)`,
+              vx: (Math.random() - 0.5) * 4,
+              vy: 3 + Math.random() * 5,
+              rot: Math.random() * 360,
+              drot: (Math.random() - 0.5) * 10,
+            });
+          }
+        }
+
+        function draw() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          pieces.forEach((p) => {
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate((p.rot * Math.PI) / 180);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+            ctx.restore();
+            p.x += p.vx;
+            p.y += p.vy;
+            p.rot += p.drot;
+          });
+          pieces = pieces.filter((p) => p.y < canvas.height + 20);
+          requestAnimationFrame(draw);
+        }
+
+        setInterval(spawn, 200);
+        draw();
+      })();
+
+      /* ========== COUNTDOWN ========== */
+      const FORCE_CHAOS = new URLSearchParams(window.location.search).has(
+        "party",
+      );
+
+      function isBirthdayToday() {
+        if (FORCE_CHAOS) return true;
+        const now = new Date();
+        return now.getMonth() + 1 === BD_MONTH && now.getDate() === BD_DAY;
+      }
+
+      function nextBirthday() {
+        const now = new Date();
+        const year = now.getFullYear();
+        let bd = new Date(year, BD_MONTH - 1, BD_DAY, 0, 0, 0, 0);
+        if (now >= bd)
+          bd = new Date(year + 1, BD_MONTH - 1, BD_DAY, 0, 0, 0, 0);
+        return bd;
+      }
+
+      function pad(n) {
+        return String(n).padStart(2, "0");
+      }
+
+      function tick() {
+        if (isBirthdayToday()) {
+          document.body.classList.add("is-birthday");
+          return;
+        }
+
+        document.body.classList.remove("is-birthday");
+        const diff = nextBirthday() - new Date();
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+
+        document.getElementById("cd-days").textContent = pad(days);
+        document.getElementById("cd-hours").textContent = pad(hours);
+        document.getElementById("cd-mins").textContent = pad(mins);
+        document.getElementById("cd-secs").textContent = pad(secs);
+
+        const msg =
+          days === 0
+            ? "🎉 Ngày mai là sinh nhật rồi!!!"
+            : days <= 7
+              ? `🎈 Còn ${days} ngày nữa thôi — gần rồi đó!`
+              : `🎁 Hẹn gặp lại vào ngày ${BD_DAY}/${BD_MONTH} nhé!`;
+        document.getElementById("cd-msg").textContent = msg;
+      }
+
+      tick();
+      setInterval(tick, 1000);
+    </script>
+  </body>
+</html>
