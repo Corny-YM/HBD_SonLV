@@ -470,6 +470,68 @@
           height: 140px;
         }
       }
+
+      /* ===== TOGGLE CHAOS BUTTON ===== */
+      #toggle-chaos-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 9999;
+        border: none;
+        outline: none;
+        padding: 12px 18px;
+        border-radius: 999px;
+        font-family: "Fredoka One", "Comic Sans MS", cursive;
+        font-size: 0.95rem;
+        color: white;
+        cursor: pointer;
+        background: linear-gradient(135deg, #7c3aed, #ec4899);
+        box-shadow:
+          0 8px 25px rgba(124, 58, 237, 0.4),
+          0 0 20px rgba(236, 72, 153, 0.3);
+        backdrop-filter: blur(10px);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          opacity 0.3s ease;
+        user-select: none;
+      }
+
+      #toggle-chaos-btn:hover {
+        transform: scale(1.06);
+        box-shadow:
+          0 12px 30px rgba(124, 58, 237, 0.5),
+          0 0 30px rgba(236, 72, 153, 0.4);
+      }
+
+      #toggle-chaos-btn:active {
+        transform: scale(0.96);
+      }
+
+      /* Trạng thái đang bật chaos */
+      body.is-birthday #toggle-chaos-btn {
+        background: linear-gradient(135deg, #ef4444, #f59e0b);
+        animation: btnPulse 0.8s infinite alternate;
+      }
+
+      @keyframes btnPulse {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(1.08);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 480px) {
+        #toggle-chaos-btn {
+          top: 12px;
+          right: 12px;
+          padding: 10px 14px;
+          font-size: 0.8rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -522,6 +584,10 @@
         🎁 Một ngày đặc biệt đang chờ đón bạn!
       </div>
     </div>
+
+    <button id="toggle-chaos-btn" title="Bật / Tắt Chaos Mode">
+      🎉 Quẩy luôn
+    </button>
 
     <script>
       /* ========== CONFIG ========== */
@@ -646,8 +712,25 @@
         "party",
       );
 
+      /* ========== MANUAL CHAOS TOGGLE ========== */
+      let manualChaos = false;
+
+      const toggleBtn = document.getElementById("toggle-chaos-btn");
+
+      toggleBtn.addEventListener("click", () => {
+        manualChaos = !manualChaos;
+
+        // Đổi text nút theo trạng thái
+        toggleBtn.textContent = manualChaos ? "🌙 Đếm ngược" : "🎉 Quẩy luôn";
+
+        // Cập nhật giao diện ngay lập tức
+        tick();
+      });
+
       function isBirthdayToday() {
+        if (manualChaos) return true;
         if (FORCE_CHAOS) return true;
+
         const now = new Date();
         return now.getMonth() + 1 === BD_MONTH && now.getDate() === BD_DAY;
       }
